@@ -12,9 +12,17 @@ const breedRoutes = require('./routes/breed')
 
 const app = express()
 
-app.use(cors())
+// app.use(cors())
 app.use(express.json())
 app.use(helmet())
+
+app.use((req,res,next) => {
+    res.setHeader('Access-Control-Allow-Origin','*')
+    res.setHeader('Access-Control-Max-Age','*')
+    res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE')
+    res.setHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Authorization')
+    next()
+})
 
 app.use('/auth',userRoutes)
 app.use('/breeds',breedRoutes)
