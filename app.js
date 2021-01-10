@@ -12,13 +12,7 @@ const breedRoutes = require('./routes/breed')
 
 const app = express()
 
-
-const corsOption = {
-    origin: 'http://localhost:3000/',
-    optionsSuccessStatus: 200
-}
-
-app.use(cors(corsOption))
+app.use(cors())
 app.use(express.json())
 // app.use(helmet())
 
@@ -30,7 +24,7 @@ app.use((req,res,next) => {
     next()
 })
 
-app.use('/auth',userRoutes)
+app.use('/auth',cors(),userRoutes)
 app.use('/breeds',breedRoutes)
 
 
