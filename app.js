@@ -13,7 +13,7 @@ const breedRoutes = require('./routes/breed')
 const app = express()
 
 const corsConfig = {
-    origin: ["http://testing.local", "https://my-movie-db-roberto.herokuapp.com", "http://localhost:3000"],
+    origin: ["http://localhost:3000"],
     credentials: true,
     methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
     allowedHeaders: ['Content-Type']
