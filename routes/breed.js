@@ -17,6 +17,10 @@ router.get('/breeding/:breedingId',isAuth,breedControllers.singleBreeding)
 
 router.delete('/breeding/:breedingId',isAuth,breedControllers.deleteBreeding)
 
+router.get('/testing', (req, res) => {
+    return res.json({success: true, message: 'It has worked'})
+})
+
 //Population
 router.post('/population',isAuth,populationController.postPopulation)
 

@@ -2,6 +2,7 @@ const express = require('express')
 
 const mongoose = require('mongoose')
 const cors = require('cors')
+const router = express.Router()
 
 
 require('dotenv').config()
@@ -12,14 +13,14 @@ const breedRoutes = require('./routes/breed')
 
 const app = express()
 
-const corsConfig = {
-    origin: ["http://localhost:3000"],
-    credentials: true,
-    methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-    allowedHeaders: ['Content-Type']
-}
+// const corsConfig = {
+//     origin: ["http://localhost:3000"],
+//     credentials: true,
+//     methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+//     allowedHeaders: ['Content-Type']
+// }
 
-app.use(cors(corsConfig))
+app.use(cors())
 app.use(express.json())
 
 
@@ -41,7 +42,12 @@ app.use((error,req,res,next) => {
     const message = error.message
     const data = error.data
     res.status(status).json({ message:message, data:data })
+});
+
+router.get('/testing', (req, res) => {
+    return res.json({success: true, result: 'it worked!!'})
 })
+
 
 mongoose.
 connect(process.env.MONGO_DB_URL,{
@@ -50,5 +56,5 @@ connect(process.env.MONGO_DB_URL,{
     useCreateIndex: true
 })
 .then(result => {
-    app.listen(process.env.PORT || 8080)
+    app.listen(process.env.PORT || 8080 ,() => console.log('SERVER Runnin on', process.env.PORT))
 })
