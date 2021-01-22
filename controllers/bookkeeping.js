@@ -1,8 +1,7 @@
-
 const BookKeeping = require('../modals/bookKeeping')
 const User = require('../modals/user')
 
-exports.postBookkeeping =  (req, res, next) => {
+exports.postBookkeeping = (req, res, next) => {
     const food = req.body.food
     const medication = req.body.medication
     const salaries = req.body.salaries
@@ -24,53 +23,54 @@ exports.postBookkeeping =  (req, res, next) => {
         salaries: salaries,
         allowances: allowances,
         miscellaneous: miscellaneous,
-        animalsBought: animalsBought, 
+        animalsBought: animalsBought,
         rabbitSales: rabbitSales,
-        farmVisits:farmVisits, 
+        farmVisits: farmVisits,
         foodSales: foodSales,
         stockFood: stockFood,
         stockAnimals: stockAnimals,
         stockMedication: stockMedication,
-        
-        creator: req.userId
+
+        creator: req.userId,
     })
 
-    book_Keeping.save()
-    .then(result => {
-        return User.findById(req.userId)
-    })
-    .then(user => {
-        creator = user
-        user.bookkeeping.push(book_Keeping)
-        return user.save()
-    })
-    .then(result => {
-        res.status(201).json({
-            message: 'Book Keeping Record added',
-            creator: {_id: creator._id, name: creator.username}
+    book_Keeping
+        .save()
+        .then((result) => {
+            return User.findById(req.userId)
         })
-    })
-    .catch(err => {
-        if(!err.statusCode){
-            err.statusCode = 500
-        }
-        next(err)
-    })
+        .then((user) => {
+            creator = user
+            user.bookkeeping.push(book_Keeping)
+            return user.save()
+        })
+        .then((result) => {
+            res.status(201).json({
+                message: 'Book Keeping Record added',
+                creator: { _id: creator._id, name: creator.username },
+            })
+        })
+        .catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500
+            }
+            next(err)
+        })
 }
 
-exports.getBookkeeping =  (req, res, next) => {
+exports.getBookkeeping = (req, res, next) => {
     const query = { creator: req.userId }
     BookKeeping.find(query)
-    .then(book => {
-        res.status(200).json({
-            message: 'Book Keeping Records fetched Successfully',
-            bookkeeping: book
+        .then((book) => {
+            res.status(200).json({
+                message: 'Book Keeping Records fetched Successfully',
+                bookkeeping: book,
+            })
         })
-    })
-    .catch(err => {
-        if(!err.statusCode){
-            err.statusCode = 500
-        }
-        next(err)
-    })
+        .catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500
+            }
+            next(err)
+        })
 }

@@ -1,7 +1,1 @@
 runtime: nodejs10
-env_variables:
-  PORT: "8080"
-  MONGO_DB_URL: "mongodb+srv://stuwie:iosadb123@iosa-db.dnyt5.mongodb.net/iosa-db?retryWrites=true&w=majority"
-  JWT_SECRET: "ifyouhackthisyoushouldthinkagain"
-
-
