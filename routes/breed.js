@@ -16,6 +16,11 @@ router.get('/breeding/:breedingId', isAuth, breedControllers.singleBreeding)
 
 router.delete('/breeding/:breedingId', isAuth, breedControllers.deleteBreeding)
 
+//Medication
+router.get('/kindling-box',isAuth, breedControllers.getKindlingBox)
+router.get('/weaning-date',isAuth, breedControllers.getWeaningDate)
+router.get('/next-breeding-date',isAuth, breedControllers.getNextBreedingDate)
+
 //Population
 router.post('/population', isAuth, populationController.postPopulation)
 

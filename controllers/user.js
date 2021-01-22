@@ -65,7 +65,7 @@ exports.signIn = (req, res, next) => {
                     userId: loadUser._id.toString(),
                 },
                 process.env.JWT_SECRET,
-                { expiresIn: '1hr' }
+                { expiresIn: '2hr' }
             )
             res.status(200).json({
                 message: 'User Logged In Successfully',
