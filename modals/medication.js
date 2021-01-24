@@ -2,34 +2,29 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const populationSchema = new Schema(
-    {
-        year:{
+const medicationSchema = new Schema({
+        _medication: {
             type: String,
             required: true
         },
-        month: {
+        medicationDate: {
             type: String,
             required: true
         },
-        recordDate: {
+        cageNumber: {
+            type: Number,
+            required: true,
+        },
+        gender: {
             type: String,
             required: true
         },
-        numberOfFemales: {
-            type: Number,
+        medicationType: {
+            type: String,
             required: true
         },
-        numberOfMales: {
-            type: Number,
-            required: true
-        },
-        numberOfNewborns: {
-            type: Number,
-            required: true
-        },
-        numberOfDeathsInMonth: {
-            type: Number,
+        remarks: {
+            type: String,
             required: true
         },
         creator: {
@@ -38,7 +33,6 @@ const populationSchema = new Schema(
             required: true,
         },
     },
-    { timestamps: true }
-)
+    { timestamps: true })
 
-module.exports = mongoose.model('Population', populationSchema)
+module.exports = mongoose.model('Medication',medicationSchema)

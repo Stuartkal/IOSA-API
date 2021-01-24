@@ -24,6 +24,12 @@ const userSchema = new Schema(
                 ref: 'Population',
             },
         ],
+        medication: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Medication'
+            }
+        ],
         bookkeeping: [
             {
                 type: Schema.Types.ObjectId,

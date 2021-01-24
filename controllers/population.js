@@ -1,15 +1,25 @@
-const Populaton = require('../modals/population')
+const Population = require('../modals/population')
 const User = require('../modals/user')
 
 exports.postPopulation = (req, res, next) => {
+    const year = req.body.year
+    const month = req.body.month
+    const recordDate = req.body.recordDate
+    const numberOfFemales = req.body.year
+    const numberOfMales = req.body.numberOfMales
     const numberOfNewborns = req.body.numberOfNewborns
-    const numberOfDeaths = req.body.numberOfDeaths
+    const numberOfDeathsInMonth = req.body.numberOfDeathsInMonth
 
     let creator
-
-    const population = new Populaton({
+    
+    const population = new Population({
+        year: year,
+        month: month,
+        recordDate: recordDate,
+        numberOfFemales: numberOfFemales,
+        numberOfMales: numberOfMales,
         numberOfNewborns: numberOfNewborns,
-        numberOfDeaths: numberOfDeaths,
+        numberOfDeathsInMonth: numberOfDeathsInMonth,
         creator: req.userId,
     })
     population
