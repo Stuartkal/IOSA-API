@@ -5,7 +5,7 @@ exports.postPopulation = (req, res, next) => {
     const year = req.body.year
     const month = req.body.month
     const recordDate = req.body.recordDate
-    const numberOfFemales = req.body.year
+    const numberOfFemales = req.body.numberOfFemales
     const numberOfMales = req.body.numberOfMales
     const numberOfNewborns = req.body.numberOfNewborns
     const numberOfDeathsInMonth = req.body.numberOfDeathsInMonth
