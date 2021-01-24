@@ -2,7 +2,7 @@ const moment = require('moment')
 
 const Breeding = require('../modals/breeding')
 const User = require('../modals/user')
-const Notifications = require('../modals/notifications')
+
 
 exports.addBreeding = (req, res, next) => {
     const breed = req.body.breed
@@ -79,22 +79,16 @@ exports.getBreeding = (req, res, next) => {
 }
 
 exports.getKindlingBox = (req, res, next) => {
-    const today = moment(new Date()).format('DD-MM-YYYY')
-    const query = { creator: req.userId, kindlingBox:today }
+    const today = moment(new Date()).format('DD-MM-YYYY') 
+    const query = { creator: req.userId, kindlingBox: today }
+
     Breeding.find(query)
         .then((breeding) => {
-            let notifications;
-            if(breeding.length > 0) {
-                notifications = new Notifications({
-                    notifications: breeding,
-                    notificationType: 'Kindling Box Reminder'
-                })
-            }
             res.status(200).json({
                 message: 'Breedings fetched Successfully',
                 breedings: breeding,
-            })
-        return notifications.save()
+            })            
+
         })
         .catch((err) => {
             if (!err.statusCode) {
@@ -109,13 +103,6 @@ exports.getWeaningDate = (req, res, next) => {
     const query = { creator: req.userId, weaningDate:today }
     Breeding.find(query)
         .then((breeding) => {
-            let notifications;
-            if(breeding.length > 0) {
-                notifications = new Notifications({
-                    notifications: breeding,
-                    notificationType: 'Weaning Reminder'
-                })
-            }
             res.status(200).json({
                 message: 'Breedings fetched Successfully',
                 breedings: breeding,
@@ -135,13 +122,6 @@ exports.getNextBreedingDate = (req, res, next) => {
     const query = { creator: req.userId, nextBreedingDate:today }
     Breeding.find(query)
         .then((breeding) => {
-            let notifications;
-            if(breeding.length > 0) {
-                notifications = new Notifications({
-                    notifications: breeding,
-                    notificationType: 'Next Breeding Date Reminder'
-                })
-            }
             res.status(200).json({
                 message: 'Breedings fetched Successfully',
                 breedings: breeding,
