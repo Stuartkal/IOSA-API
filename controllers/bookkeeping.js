@@ -74,3 +74,58 @@ exports.getBookkeeping = (req, res, next) => {
             next(err)
         })
 }
+
+exports.deleteBookkeeping = (req, res, next) => {
+    const bookId = req.params.bookId
+
+    BookKeeping.findById(bookId)
+        .then((book) => {
+            if (!book) {
+                const error = new Error('Cannot find book keeping record')
+                error.statusCode = 404
+                throw error
+            }
+            if (book.creator.toString() !== req.userId) {
+                const error = new Error('Not Authorized to delete book keeping record')
+                error.statusCode = 403
+                throw error
+            }
+            return BookKeeping.findByIdAndRemove(bookId)
+        })
+        .then((result) => {
+            return User.findById(req.userId)
+        })
+        .then((user) => {
+            user.bookkeeping.pull(bookId)
+            return user.save()
+        })
+        .then((result) => {
+            // console.log(result)
+            res.status(200).json({
+                message: 'Book Keeping Record Deleted Successfully',
+            })
+        })
+        .catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500
+            }
+            next(err)
+        })
+}
+
+exports.singleBookkeeping = (req, res, next) => {
+    const bookId = req.params.bookId
+    BookKeeping.findById(bookId)
+        .then((book) => {
+            res.status(200).json({
+                message: 'Book Keeping Record Fetched Successfully',
+                bookkeeping: book,
+            })
+        })
+        .catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500
+            }
+            next(err)
+        })
+}

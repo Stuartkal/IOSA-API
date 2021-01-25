@@ -178,7 +178,7 @@ exports.deleteBreeding = (req, res, next) => {
             return user.save()
         })
         .then((result) => {
-            console.log(result)
+            // console.log(result)
             res.status(200).json({
                 message: 'breeding Deleted Successfully',
             })
