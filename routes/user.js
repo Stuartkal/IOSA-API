@@ -29,4 +29,6 @@ router.post('/signin', userControllers.signIn)
 
 router.post('/revenue/:userId',isAuth,userControllers.revenue)
 
+router.get('/user-profile/:userId',isAuth,userControllers.getUserProfile)
+
 module.exports = router

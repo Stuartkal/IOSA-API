@@ -141,3 +141,20 @@ exports.revenue = (req, res, next) => {
         next(err)
     })
 }
+
+exports.getUserProfile = (req,res,next) => {
+    const userId = req.params.userId
+    User.findById(userId)
+    .then(userDoc => {
+        res.status(200).json({
+            message: 'User fetched Successfully',
+            user: userDoc,
+        })
+    })
+    .catch((err) => {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+    })
+}
