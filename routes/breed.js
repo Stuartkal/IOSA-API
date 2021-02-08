@@ -56,4 +56,8 @@ router.delete('/book-keeping/:bookId', isAuth, bookKeepingController.deleteBookk
 
 router.get('/book-keeping/:bookId', isAuth, bookKeepingController.singleBookkeeping)
 
+//Revenue
+
+router.get('/revenue',isAuth, bookKeepingController.getRevenue)
+
 module.exports = router

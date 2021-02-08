@@ -3,6 +3,7 @@ const bycrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const User = require('../modals/user')
+const Revenue = require('../modals/revenue')
 
 exports.signUp = (req, res, next) => {
     const errors = validationResult(req)
@@ -80,4 +81,63 @@ exports.signIn = (req, res, next) => {
             }
             next(err)
         })
+}
+
+exports.revenue = (req, res, next) => {
+    const userId = req.params.userId
+
+    const expenditure = req.body.expenditure
+    const gross_revenue = req.body.gross_revenue
+    const net_revenue = req.body.net_revenue
+    
+    User.findById(userId)
+    .then(user => {
+        if (!user) {
+            const error = new Error('User not Found')
+            error.statusCode = 404
+            throw error
+        }
+        if(user.net_revenue){
+            user.net_revenue = parseInt(user.net_revenue) + parseInt(net_revenue)
+        }else {
+            user.net_revenue = net_revenue
+        }
+
+        if(user.gross_revenue){
+            user.gross_revenue = parseInt(user.gross_revenue) + parseInt(gross_revenue)
+        }else {
+            user.gross_revenue = gross_revenue
+        }
+
+        if(user.expenditure){
+            user.expenditure = parseInt(user.expenditure) + parseInt(expenditure)
+        }else {
+            user.expenditure = expenditure
+        }
+
+
+        return user.save()
+    })
+    .then (result => {
+        const revenue = new Revenue({
+            expenditure: expenditure,
+            gross_revenue: gross_revenue,
+            net_revenue: net_revenue,
+            creator: userId
+
+        })
+        revenue.save()
+    })
+    .then(result =>{
+        res.status(200).json({
+            message:'Revenue added',
+            revenue: result
+        })
+    })
+    .catch((err) => {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+    })
 }

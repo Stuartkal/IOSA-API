@@ -1,4 +1,5 @@
 const BookKeeping = require('../modals/bookKeeping')
+const Revenue = require('../modals/revenue')
 const User = require('../modals/user')
 
 exports.postBookkeeping = (req, res, next) => {
@@ -128,4 +129,22 @@ exports.singleBookkeeping = (req, res, next) => {
             }
             next(err)
         })
+}
+
+exports.getRevenue = (req, res, next) => {
+    const query = { creator: req.userId }
+    Revenue.find(query)
+        .then((record) => {
+            res.status(200).json({
+                message: 'Revenue Records fetched Successfully',
+                revenue: record,
+            })
+        })
+        .catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500
+            }
+            next(err)
+        })
+    // res.status(200).json({message: 'reached here'})
 }

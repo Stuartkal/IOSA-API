@@ -6,6 +6,8 @@ const router = express.Router()
 const User = require('../modals/user')
 const userControllers = require('../controllers/user')
 
+const isAuth = require('../middleware/is-auth')
+
 router.put(
     '/register',
     [
@@ -24,5 +26,7 @@ router.put(
 )
 
 router.post('/signin', userControllers.signIn)
+
+router.post('/revenue/:userId',isAuth,userControllers.revenue)
 
 module.exports = router

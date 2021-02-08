@@ -12,6 +12,18 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
+        expenditure: {
+            type: String,
+            required: false
+        },
+        gross_revenue: {
+            type: String,
+            required: false
+        },
+        net_revenue: {
+            type: String,
+            required: false
+        },
         breeding: [
             {
                 type: Schema.Types.ObjectId,
