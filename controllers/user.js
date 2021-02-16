@@ -73,6 +73,9 @@ exports.signIn = (req, res, next) => {
                 token: token,
                 userId: loadUser._id.toString(),
                 username: loadUser.username,
+                expenditure: loadUser.expenditure,
+                gross_revenue: loadUser.gross_revenue,
+                net_revenue: loadUser.net_revenue
             })
         })
         .catch((err) => {
@@ -89,72 +92,72 @@ exports.revenue = (req, res, next) => {
     const expenditure = req.body.expenditure
     const gross_revenue = req.body.gross_revenue
     const net_revenue = req.body.net_revenue
-    
+
     User.findById(userId)
-    .then(user => {
-        if (!user) {
-            const error = new Error('User not Found')
-            error.statusCode = 404
-            throw error
-        }
-        if(user.net_revenue){
-            user.net_revenue = parseInt(user.net_revenue) + parseInt(net_revenue)
-        }else {
-            user.net_revenue = net_revenue
-        }
+        .then(user => {
+            if (!user) {
+                const error = new Error('User not Found')
+                error.statusCode = 404
+                throw error
+            }
+            if (user.net_revenue) {
+                user.net_revenue = parseInt(user.net_revenue) + parseInt(net_revenue)
+            } else {
+                user.net_revenue = net_revenue
+            }
 
-        if(user.gross_revenue){
-            user.gross_revenue = parseInt(user.gross_revenue) + parseInt(gross_revenue)
-        }else {
-            user.gross_revenue = gross_revenue
-        }
+            if (user.gross_revenue) {
+                user.gross_revenue = parseInt(user.gross_revenue) + parseInt(gross_revenue)
+            } else {
+                user.gross_revenue = gross_revenue
+            }
 
-        if(user.expenditure){
-            user.expenditure = parseInt(user.expenditure) + parseInt(expenditure)
-        }else {
-            user.expenditure = expenditure
-        }
+            if (user.expenditure) {
+                user.expenditure = parseInt(user.expenditure) + parseInt(expenditure)
+            } else {
+                user.expenditure = expenditure
+            }
 
 
-        return user.save()
-    })
-    .then (result => {
-        const revenue = new Revenue({
-            expenditure: expenditure,
-            gross_revenue: gross_revenue,
-            net_revenue: net_revenue,
-            creator: userId
-
+            return user.save()
         })
-        revenue.save()
-    })
-    .then(result =>{
-        res.status(200).json({
-            message:'Revenue added',
-            revenue: result
+        .then(result => {
+            const revenue = new Revenue({
+                expenditure: expenditure,
+                gross_revenue: gross_revenue,
+                net_revenue: net_revenue,
+                creator: userId
+
+            })
+            revenue.save()
         })
-    })
-    .catch((err) => {
-        if (!err.statusCode) {
-            err.statusCode = 500
-        }
-        next(err)
-    })
+        .then(result => {
+            res.status(200).json({
+                message: 'Revenue added',
+                revenue: result
+            })
+        })
+        .catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500
+            }
+            next(err)
+        })
 }
 
-exports.getUserProfile = (req,res,next) => {
+exports.getUserProfile = (req, res, next) => {
     const userId = req.params.userId
     User.findById(userId)
-    .then(userDoc => {
-        res.status(200).json({
-            message: 'User fetched Successfully',
-            user: userDoc,
+        .then(userDoc => {
+            res.status(200).json({
+                message: 'User fetched Successfully',
+                user: userDoc,
+            })
         })
-    })
-    .catch((err) => {
-        if (!err.statusCode) {
-            err.statusCode = 500
-        }
-        next(err)
-    })
+        .catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500
+            }
+            next(err)
+        })
 }
